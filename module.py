@@ -4,7 +4,7 @@ import time
 
 
 class searchHands():
-    def __init__(self, mode=False, max=1, minConf=0.7, minTrack=0.8):
+    def __init__(self, mode=False, max=1, minConf=0.6, minTrack=0.7):
         self.mode = mode
         self.max = max
         self.minConf = minConf
@@ -34,7 +34,7 @@ class searchHands():
             for id, lm in enumerate(hand.landmark):
                 h, w, c = frame.shape
                 cx, cy = int(lm.x * w), int(lm.y * h)
-                lmList.append([id, cx, cy])
+                lmList.append([cx, cy])
                 if draw:
                     cv2.circle(frame, (cx, cy), 3, (255, 0, 255), cv2.FILLED)
         return lmList
@@ -47,10 +47,7 @@ def main():
         ret, frame = vid.read()
         detect.findHands(frame)
         lmList = detect.pos(frame)
-        if len(lmList) != 0:
-            print(lmList[8])
         cv2.imshow('frame', frame)
-
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print("Exiting.")
             break
